@@ -45,7 +45,7 @@ class Matrix:
 
     def submatrix(self, x, y):
         result = []
-        for i in range(x[0], y[0]+1):
+        for i in range(x[0], y[0]+1): #TODO remove loop
             if x[1] == y[1]:
                 result.append([self.data[i][x[1]]])
             else:
@@ -53,6 +53,9 @@ class Matrix:
         return Matrix(result)
 
     def strassen(self, other):
+        #TODO fill with 0 when 3x3 ...
+        if self.lengthi!=other.lengthi and self.lengthj!=other.lengthj:
+            raise ValueError("Size not equals and n%2=0")
         if self.lengthi==2 and self.lengthj==2 and other.lengthi==2 and other.lengthj==2:
             q1 = (self[0][0]-self[0][1])*other[1][1]
             q2 = (self[1][0]-self[1][1])*other[0][0]
@@ -82,7 +85,7 @@ class Matrix:
         result = []
         if self.lengthi == other.lengthi:
             for k in range(0,self.lengthi):
-                line = self[k]
+                line = self[k][:]
                 line.extend(other[k])
                 result.append(line)
             return Matrix(result)

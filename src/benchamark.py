@@ -11,7 +11,9 @@ if not os.path.exists('../out'):
 file = open("../out/out" + str(calendar.timegm(time.gmtime())) + ".csv", "w")
 
 sys.setrecursionlimit(10000)
-SIZE = 1000
+print "Welcome to benchmark for Classic/Strassen  "
+print "Select max size of matrix :"
+SIZE = input()
 j = 2
 a = Matrix([[1, 1], [1, 1]])
 

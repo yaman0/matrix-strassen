@@ -4,8 +4,8 @@ class Matrix:
     def split4twomatrix(a, b):
         """
         split 2 matrix in 4 sub matrix
-        :param Matrix a:
-        :param Matrix b:
+        :param Matrix a: first matrix
+        :param Matrix b: second matrix
         :return: result of 8 matrix
         """
         if not a.isSquare() and not b.isSquare():
@@ -47,6 +47,10 @@ class Matrix:
         return Matrix(a11), Matrix(a12), Matrix(a21), Matrix(a22), Matrix(b11), Matrix(b12), Matrix(b21), Matrix(b22)
 
     def __init__(self, data):
+        """
+        Constructor
+        :param list[] data: list represent a matrix
+        """
         self.data = data
         self.lengthi = len(data)
         if self.lengthi != 0:
@@ -57,18 +61,33 @@ class Matrix:
             self.lengthj = 0
 
     def __add__(self, matrix):
+        """
+        Add with an orther Matrix
+        :param Matrix matrix: other matrix
+        :return Matrix:
+        """
         result = self.data
-        if self.lengthi == matrix.lengthi:
-            if self.lengthj == matrix.lengthj:
-                for i in range(self.lengthi):
-                    for j in range(self.lengthj):
-                        result[i][j] = self[i][j] + matrix[i][j]
+        if self.lengthi == matrix.lengthi and self.lengthj == matrix.lengthj:
+            for i in range(self.lengthi):
+                for j in range(self.lengthj):
+                    result[i][j] = self[i][j] + matrix[i][j]
+        else:
+            raise ValueError('a and b length isn\'t equal')
         return Matrix(result)
 
-    def __getitem__(self, item):
-        return self.data[item]
+    def __getitem__(self, index):
+        """
+        get data's row from index
+        :param int index: index
+        :return list: row
+        """
+        return self.data[index]
 
     def __str__(self):
+        """
+        return string representation of Matrix
+        :return: string representation
+        """
         string = ""
         for i in range(self.lengthi):
             string += str(self.data[i])
@@ -77,6 +96,11 @@ class Matrix:
         return string
 
     def __mul__(self, other):
+        """
+        classical multiplication of matrix
+        :param Matrix other: other Matrix
+        :return Matrix: result
+        """
         if self.lengthj != other.lengthi:
             raise ArithmeticError("a.lengthj != b.lengthi")
         result = []
@@ -91,6 +115,11 @@ class Matrix:
         return Matrix(result)
 
     def strassen(self, other):
+        """
+        strassen multiplication of matrix
+        :param Matrix other: other Matrix
+        :return Matrix: result
+        """
         # TODO fill with 0 when 3x3 ...
         if self.lengthi != other.lengthi and self.lengthj != other.lengthj:
             raise ValueError("Size not equals and n%2=0")
@@ -119,6 +148,11 @@ class Matrix:
             return top.verticaljoin(bot)
 
     def horizontaljoin(self, other):
+        """
+        join horizontally 2 Matrix
+        :param Matrix other: other matrix
+        :return Matrix: result
+        """
         result = []
         if self.lengthi == other.lengthi:
             for k in range(0, self.lengthi):
@@ -130,6 +164,11 @@ class Matrix:
             raise ValueError("Need a.lengthi == b.lengthi")
 
     def verticaljoin(self, other):
+        """
+        join verticaly 2 Matrix
+        :param Matrix other: other matrix
+        :return Matrix: result
+        """
         if self.lengthj == other.lengthj:
             result = self.data
             result.extend(other.data)

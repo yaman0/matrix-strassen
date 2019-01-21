@@ -1,8 +1,15 @@
+"""
+File to test A*B with strassen or classic algorithm
+"""
 from Matrix import Matrix
 import ast
 
 
 def inputMatrix():
+    """
+    Get a matrix from stdin
+    :return Matrix:
+    """
     print "Get matrix (ex: [[2,3,1],[1,5,6],[4,5,7]]:"
     string = raw_input()
     tab = ast.literal_eval(string)
@@ -10,6 +17,10 @@ def inputMatrix():
 
 
 def getTypeMulti():
+    """
+    get type of multiplication from stdin
+    :return int:
+    """
     print "Strassen(s)/Classic(c):"
     string = raw_input()
     if not len(string) == 1:

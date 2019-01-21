@@ -1,3 +1,7 @@
+"""
+Compare Strassen and classic algorithms to do A*B
+We use the worst case when all cells of Matrix have number
+"""
 import calendar
 import os
 import sys

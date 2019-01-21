@@ -1,3 +1,6 @@
+import math
+
+
 class Matrix:
 
     @staticmethod
@@ -120,10 +123,18 @@ class Matrix:
         :param Matrix other: other Matrix
         :return Matrix: result
         """
-        # TODO fill with 0 when 3x3 ...
-        if self.lengthi != other.lengthi and self.lengthj != other.lengthj:
-            raise ValueError("Size not equals and n%2=0")
-        if self.lengthi == 2 and self.lengthj == 2 and other.lengthi == 2 and other.lengthj == 2:
+        selfaddnumber = 0
+        otheraddnumber = 0
+        if not self.isSquare() or not other.isSquare():
+            raise ValueError("Matrix need to be square")
+        if self.lengthi != other.lengthi:
+            raise ValueError("Can't multiplication of matrix (not equals size)")
+        if self.lengthi % 2 != 0:
+            newself, selfaddnumber = self.fillMatrixToSquare()
+            other, otheraddnumber = other.fillMatrixToSquare()
+            self.data = newself.data.copy()
+
+        if self.lengthi == 2:
             q1 = (self[0][0] - self[0][1]) * other[1][1]
             q2 = (self[1][0] - self[1][1]) * other[0][0]
             q3 = self[1][1] * (other[0][0] + other[1][0])
@@ -145,7 +156,8 @@ class Matrix:
             c22 = a21.strassen(b12) + a22.strassen(b22)
             top = c11.horizontaljoin(c12)
             bot = c21.horizontaljoin(c22)
-            return top.verticaljoin(bot)
+            result = top.verticaljoin(bot)
+            return result.removeMatrixBorder(selfaddnumber) if selfaddnumber != 0 else result
 
     def horizontaljoin(self, other):
         """
@@ -176,10 +188,33 @@ class Matrix:
         else:
             raise ValueError("Need a.lengthj == b.lengthj")
 
-
     def isSquare(self):
         """
         test if it's an N*N matrix
         :return boolean: test
         """
         return self.lengthi == self.lengthj
+
+    def fillMatrixToSquare(self):
+        """
+        Fill matrix with 0 to have a 2^nx2^n
+        :return:
+        """
+        target = int(math.ceil(self.lengthi / 2.0))
+        diff = int(2 ** target - self.lengthi)
+        if not diff == 0:
+            right = [[0 for j in range(0, diff)] for i in range(0, self.lengthi)]
+            bot = [[0 for j in range(0, 2 ** target)] for i in range(0, diff)]
+            new = self.horizontaljoin(Matrix(right))
+            new = new.verticaljoin(Matrix(bot))
+            return new, diff
+        else:
+            return self, 0
+
+    def removeMatrixBorder(self, x):
+        """
+        Remove x border of the matrix
+        :param int x:
+        :return Matrix:
+        """
+        return Matrix([[self[i][j] for j in range(0, self.lengthj - x)] for i in range(0, self.lengthi - x)])

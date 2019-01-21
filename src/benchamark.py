@@ -1,5 +1,4 @@
 import calendar
-import datetime
 import os
 import sys
 import time
@@ -15,7 +14,7 @@ print "Welcome to benchmark for Classic/Strassen  "
 print "Select max size of matrix :"
 SIZE = input()
 j = 2
-a = Matrix([[1, 1], [1, 1]])
+a = Matrix([[2, 2], [2, 2]])
 
 file.write("n;classic;strassen\n")
 
